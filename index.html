@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Eksperyment randkowy</title>
+  <style>
+     html {
+  height: 100%;
+  background: linear-gradient(to bottom, #92789a, #e8c2cd);
+}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #92789a, #e8c2cd);
+      color: #333;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+   
+}
+    h1 {
+      padding: 20px;
+      color: white;
+    }
+    .main-title {
+  font-size: 48px;
+  color: #ffffff;
+  text-align: center;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+    .section-title {
+  font-size: 26px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.input-large {
+  font-size: 20px;
+  padding: 10px;
+  width: 300px;
+  max-width: 90%;
+  border-radius: 9px;
+  border: none;
+  outline: none;
+  margin-top: 20;
+  margin-bottom: 20px;
+}
+
+.form-note {
+  color: white;
+  font-size: 20px;
+  margin-top: 10px;
+}
+    .profiles {
+      display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
+  justify-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+    }
+    .profiles > div:nth-child(n+5) {
+      grid-column: span 1;
+    }
+    .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  #profiles img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+  border-radius: 50% !important;
+  border: 5px solid white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  image-rendering: smooth !important; /* lepsze wygładzanie */
+  filter: contrast(95%) brightness(104%) saturate(104%) !important;
+  transition: transform 0.2s ease;
+}
+
+.profile img:hover {
+  transform: scale(1.03); /* efekt powiększenia przy najechaniu */
+}
+    }
+    label {
+      margin-top: 10px;
+      font-weight: bold;
+      color: white;
+    }
+    input[type=number] {
+      width: 80px;
+      margin: 5px 10px 15px 10px;
+      padding: 6px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+    button {
+      cursor: pointer;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background-color: #7a3ff1;
+      color: white;
+      font-size: 16px;
+      margin-top: 10px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #9a60f9;
+    }
+    .white-instruction {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.message-card {
+  background-color: white;
+  color: black;
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto 20px auto;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  font-size: 16px;
+  text-align: center;
+}
+    #messageSection, #envelopeSection, #responseSection, #finalRatingSection {
+      max-width: 400px;
+      margin: 30px auto;
+      color: white;
+    }
+    #messageInput, #commentInput {
+      width: 100%;
+      height: 150px;
+      margin-top: 15px;
+      border-radius: 8px;
+      border: none;
+      padding: 20px;
+      font-size: 1.1rem;
+      resize: vertical;
+    }
+    #envelope {
+      font-size: 120px;
+      cursor: pointer;
+      margin-top: 2px;
+      user-select: none;
+    }
+    .hidden {
+      display: none !important;
+    }
+    #instructionBeforeChoice, #instructionAfterChoice, #instructionAfterResponse, #instructionWaitingForResponse {
+  max-width: 700px;
+  margin: 20px auto;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 15px;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+}
+    #submitFinal {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #7a3ff1;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+#submitFinal:hover {
+  background-color: #9a60f9;
+}
+    #chosenProfile {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#chosenProfile img {
+  border: 5px solid white;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  image-rendering: auto;
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+   #finalProfile {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+    #finalProfile img {
+  border: 5px solid white;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  display: block;
+  margin: 20px auto;
+}
+    .final-profile-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 5px solid white;
+  object-fit: cover;
+  image-rendering: auto;
+}
+    @media screen and (max-width: 768px) {
+  body {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  #chosenProfile img {
+    width: 100px;
+    height: 100px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  button {
+    width: 100%;
+    font-size: 18px;
+  }
+
+  .some-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+    @media screen and (max-width: 480px) {
+  .profiles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .profile img {
+    width: 120px;
+    height: 120px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+body {
+  overflow-x: hidden;
+  word-break: break-word;
+  -webkit-tap-highlight-color: transparent;
+}
+    * {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+  </style>
+</head>
+<body>
+  <div id="progressBarContainer" style="width: 100%; background-color: #ddd;">
+  <div id="progressBar" style="width: 0%; height: 20px; background-color: #7a3ff1;"></div>
+</div>
+  <div id="consentSection">
+  <label style="display: block; font-size: 22px; margin: 20px 0; color: white; font-weight: bold;">
+  <input type="checkbox" id="consentCheckbox" style="transform: scale(2); margin-right: 15px;" />
+   Wyrażam zgodę na udział w badaniu.
+</label>
+  
+</div>
+  <h1 class= "main-title"> Online dating - symulacja </h1>
+  <div id="instructionBeforeChoice">
+  <p><strong>Instrukcja:</strong> Wypełnij kwestionariusz, do którego link znajduje się poniżej. Następnie kliknij "Rozpocznij", aby zacząć badanie. Obejrzyj wszystkie zdjęcia i oceń każdą osobę w skali 1–10. Następnie wybierz jedną osobę, którą oceniasz najwyżej. Nawet jeżeli kilka zdjęć otrzymało te samą ocenę, wybierz tylko jedno zdjęcie.</p>
+</div>
+  <div id="nicknameSection">
+  <h2 class="section-title">Podaj swój pseudonim:</h2>
+<input type="text" id="nicknameInput" class="input-large" placeholder="Twój pseudonim" />
+<p class="form-note">
+  Przed rozpoczęciem badania, proszę wypełnij krótki formularz:
+
+</p>
+  </div>
+  <div id="formWrapper" style="max-width: 100%; overflow: hidden;">
+    <iframe 
+      src="https://docs.google.com/forms/d/e/1FAIpQLSeOza1grcwbehwrCJPNCZv0ulEo1C96uT80ge48Ip5ZqfWoOA/viewform?embedded=true" 
+      width="100%" 
+      height="700px" 
+      frameborder="0" 
+      marginheight="0" 
+      marginwidth="0"
+      style="border-radius: 10px; background-color: white;"
+    >
+      Ładuję…
+    </iframe>
+  </div>
+
+  <div style="text-align: center; margin-top: 20px;">
+    <button id="startBtn" onclick="startExperiment()" style="padding: 12px 24px; font-size: 18px;">Rozpocznij</button>
+  </div>
+  <div class="profiles" id="profiles"></div>
+  <div id="chosenProfile" class="hidden"></div>
+<div id="instructionAfterChoice" class="hidden">
+  <p><strong>Instrukcja:</strong> Napisz wiadomość do osoby, którą wybrałeś.Wiadomość ma na celu przedstawienie się i zaprezentowanie siebie z jak najlepszej strony.</p>
+</div>
+  
+  <div id="messageSection" class="hidden" style="max-width: 600px; margin: auto; font-family: sans-serif;">
+  <style>
+    #messageSection input,
+    #messageSection textarea,
+    #messageSection select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #999;
+      border-radius: 12px;
+      background-color: white;
+      color: black;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    #messageSection label {
+      font-weight: bold;
+      font-size: 16px;
+      display: block;
+      margin-top: 10px;
+    }
+
+    #messageSection p {
+      font-size: 14px;
+      color: white;
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
+
+    #messageSection textarea#messageInput {
+      height: 120px;
+      resize: vertical;
+    }
+
+    #messageSection button#sendBtn {
+      padding: 12px 24px;
+      font-size: 18px;
+      background-color: #804caf;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+
+    #messageSection button#sendBtn:hover {
+      background-color: #45a049;
+    }
+
+    #messageSection h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    body {
+      background-color: #121212; /* opcjonalnie, żeby wszystko pasowało do ciemnego motywu */
+    }
+  </style>
+    <h2>Stwórz swój profil</h2>
+
+  <label for="name">Imię:</label><br>
+  <input type="text" id="name" name="name" required><br><br>
+
+  <label for="age">Wiek:</label><br>
+  <input type="number" id="age" name="age" min="16" max="100" required><br><br>
+
+  <label for="interests">3 zainteresowania (oddziel przecinkami):</label><br>
+  <input type="text" id="interests" name="interests" required><br><br>
+
+  <label for="values">Co jest dla Ciebie ważne w relacjach?</label><br>
+  <textarea id="values" name="values" rows="3" required></textarea><br><br>
+
+  <label for="occupation">Czym się zajmujesz?</label><br>
+  <input type="text" id="occupation" name="occupation" required><br><br>
+
+  <label for="messageInput">Wiadomość do wybranej osoby:</label><br>
+  <p style="font-size: 16 px; color: white;">
+    Wyobraź sobie, że piszesz do osoby, którą uznałeś za najbardziej atrakcyjną. Przedstaw się i zaprezentuj z jak najlepszej strony – tak, jakby to była Twoja pierwsza wiadomość na portalu randkowym.
+  </p>
+  <textarea id="messageInput" placeholder="Twoja wiadomość..." rows="5" required></textarea><br><br>
+
+  <label for="effort">Jak bardzo zależało Ci na zrobieniu dobrego wrażenia? (1 – wcale, 7 – bardzo)</label><br>
+  <select id="effort" name="effort" required>
+    <option value="" disabled selected>Wybierz</option>
+    <option value="1">1 – wcale</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7 – bardzo</option>
+  </select><br><br>
+
+  <button id="sendBtn">Wyślij</button>
+</div>
+  
+  <p id="instructionWaitingForResponse" class="hidden waiting-instruction"></p>
+
+<div id="proceedAfterMessage" class="hidden" style="text-align: center; margin-top: 20px;">
+  <button onclick="proceedToFinalRating()">Zamknij</button>
+</div>
+
+<div id="envelopeSection" class="hidden">
+  <p id="clickInstruction" style="text-align: center; font-weight: bold;">Kliknij, aby otworzyć wiadomość</p>
+  <div id="envelope" title="Otwórz wiadomość" onclick="showResponse()">📩</div>
+</div>
+
+<div id="responseSection" class="hidden">
+  <p id="closeInstruction" class="white-instruction">Zamknij kopertę, aby przejść dalej</p>
+  <div class="message-card">
+    <p><strong>Nie poczułam niczego szczególnego po Twojej wiadomości.</strong></p>
+  </div>
+  <button onclick="showFinalRating()">Zamknij</button>
+</div>
+  <div id="instructionAfterResponse" class="hidden">
+  <p><strong>Instrukcja:</strong> Oceń ponownie zdjęcię wybranej przez Ciebie osoby. Ocena zostanie do niej przesłana i otrzyma ona średnią wszystkich ocen, które otrzymała w całym badaniu. Masz też możliwość napisania dla niej komentarza.</p>
+</div>
+
+  <div id="finalRatingSection" class="hidden">
+    <h2>Oceń ponownie</h2>
+    <div id="finalProfile"></div>
+    <label for="finalRating">Ocena (1-10):</label>
+    <input id="finalRating" type="number" min="1" max="10" placeholder="Ocena 1-10" />
+    <button id="submitFinalBtn">Wyślij</button>
+    <textarea id="commentInput" placeholder="Zostaw komentarz..."></textarea>
+  </div>
+  
+  <div id="thankYouScreen" class="hidden">
+  <h1 style="color: white; margin-top: 25px;">Dziękujemy za udział w badaniu!</h1>
+    <h2 style="color: white; margin-top: 20px;"> Celem badania było sprawdzenie, w jakim stopniu romantyczne odrzucenie może prowadzić do reakcji o charakterze agresywnym.
+Badanie zostało skonstruowane tak, aby wywołać sytuację potencjalnego odrzucenia w kontrolowanych warunkach eksperymentalnych.
+Dodatkowo, analizowane są także indywidualne różnice psychologiczne, które mogły wpływać na pojawienie się reakcji i jej intensywność.
+Jeśli po udziale w badaniu czujesz dyskomfort lub chciałbyś porozmawiać o jego treści, zapraszam do kontaktu.  
+      
+    </h2>
+</div>
+
+<script>
+//if (localStorage.getItem("experimentCompleted")) {
+  //alert("Już wypełniłeś badanie. Dziękujemy!");
+  //document.body.innerHTML = "<h2>Dziękujemy za udział w badaniu.</h2>";
+//}
+  let grupa;
+if (localStorage.getItem("grupaBadawcza")) {
+  grupa = localStorage.getItem("grupaBadawcza");
+} else {
+  grupa = Math.random() < 0.5 ? "eksperymentalna" : "kontrolna";
+  localStorage.setItem("grupaBadawcza", grupa);
+}
+
+console.log("Przydzielono do grupy:", grupa);
+
+window.addEventListener("beforeunload", function (e) {
+  e.preventDefault();
+  e.returnValue = "Czy na pewno chcesz opuścić stronę? Postęp zostanie utracony.";
+});
+
+const images = [
+  "https://cdn.glitch.global/48e975e1-c0ab-4475-be2e-4375f12ff6e2/IMG_3073.jpeg?v=1750535820257",
+  "https://cdn.glitch.global/48e975e1-c0ab-4475-be2e-4375f12ff6e2/IMG_3078.jpg?v=1750540697527",
+  "https://cdn.glitch.global/48e975e1-c0ab-4475-be2e-4375f12ff6e2/IMG_3080.jpeg?v=1750540886129",
+  "https://cdn.glitch.global/48e975e1-c0ab-4475-be2e-4375f12ff6e2/Przer%C3%B3bka%201-fotor-20250621225649.png?v=1750539430207",
+  "https://cdn.glitch.global/48e975e1-c0ab-4475-be2e-4375f12ff6e2/IMG_3083.jpg?v=1750540726589",
+  "https://cdn.glitch.global/48e975e1-c0ab-4475-be2e-4375f12ff6e2/Przer%C3%B3bka%20CM.jpg?v=1750539278391"
+];
+
+const profilesContainer = document.getElementById("profiles");
+const messageSection = document.getElementById("messageSection");
+const envelopeSection = document.getElementById("envelopeSection");
+const responseSection = document.getElementById("responseSection");
+const finalRatingSection = document.getElementById("finalRatingSection");
+const finalProfile = document.getElementById("finalProfile");
+const sendBtn = document.getElementById("sendBtn");
+
+let collectedData = {
+  nickname: "",
+  ratings: [],
+  selectedImage: "",
+  message: "",
+  finalRating: "",
+  comment: ""
+};
+
+let selectedImage = null;
+let envelopeTimeout = null;
+
+function createProfileElement(url) {
+  const profileDiv = document.createElement("div");
+  profileDiv.className = "profile";
+
+  const img = document.createElement("img");
+  img.src = url;
+
+  const label = document.createElement("label");
+  label.textContent = "Ocena (1-10):";
+
+  const input = document.createElement("input");
+  input.type = "number";
+  input.min = 1;
+  input.max = 10;
+  input.placeholder = "Ocena 1-10";
+
+  const button = document.createElement("button");
+  button.innerText = "Wybierz";
+
+  button.addEventListener("click", () => {
+    const allInputs = profilesContainer.querySelectorAll('input[type="number"]');
+    const allRated = Array.from(allInputs).every(input => {
+      const val = Number(input.value);
+      return input.value !== "" && val >= 1 && val <= 10;
+    });
+
+    if (!allRated) {
+      alert("Proszę ocenić wszystkie zdjęcia (1–10) przed dokonaniem wyboru.");
+      return;
+    }
+
+    // Zbierz wszystkie oceny:
+    const allProfiles = profilesContainer.querySelectorAll(".profile");
+const ratings = Array.from(allProfiles).map(p => {
+  const img = p.querySelector("img");
+  const input = p.querySelector("input");
+  return {
+    image: img?.src || "",
+    rating: input?.value || ""
+  };
+});
+
+collectedData.ratings = ratings;
+    collectedData.selectedImage = url;
+    selectedImage = url;
+
+    console.log("Oceny zapisane:", collectedData.ratings);
+    console.log("Wybrane zdjęcie:", selectedImage);
+
+    selectProfile(url);
+    const chosenProfileDiv = document.getElementById("chosenProfile");
+    console.log("🧪 collectedData.selectedImage:", collectedData.selectedImage);
+    updateProgress(40);
+  });
+
+  profileDiv.appendChild(img);
+  profileDiv.appendChild(label);
+  profileDiv.appendChild(input);
+  profileDiv.appendChild(button);
+  return profileDiv;
+
+}
+
+function loadProfiles() {
+  profilesContainer.innerHTML = "";
+  messageSection.classList.add("hidden");
+  envelopeSection.classList.add("hidden");
+  responseSection.classList.add("hidden");
+  proceedAfterMessage.classList.add("hidden");
+  finalRatingSection.classList.add("hidden");
+
+  images.forEach(url => {
+    const profileEl = createProfileElement(url);
+    profilesContainer.appendChild(profileEl);
+  });
+
+  updateProgress(20); // po załadowaniu zdjęć
+}
+
+function selectProfile(url) {
+  console.log("Wywołano selectProfile, url:", url);
+  selectedImage = url;
+  collectedData.selectedImage = url;
+  clearTimeout(envelopeTimeout);
+  
+
+  profilesContainer.innerHTML = "";
+  messageSection.classList.remove("hidden");
+  document.getElementById("instructionBeforeChoice").classList.add("hidden");
+  document.getElementById("instructionAfterChoice").classList.remove("hidden");
+  envelopeSection.classList.add("hidden");
+  responseSection.classList.add("hidden");
+  finalRatingSection.classList.add("hidden");
+
+  const chosenProfileDiv = document.getElementById("chosenProfile");
+  chosenProfileDiv.classList.remove("hidden");
+  chosenProfileDiv.innerHTML = "";
+}
+
+sendBtn.addEventListener("click", () => {
+  const name = document.getElementById("name")?.value.trim();
+  const age = document.getElementById("age")?.value.trim();
+  const interests = document.getElementById("interests")?.value.trim();
+  const values = document.getElementById("values")?.value.trim();
+  const occupation = document.getElementById("occupation")?.value.trim();
+  const message = document.getElementById("messageInput")?.value.trim();
+  const effort = document.getElementById("effort")?.value;
+
+  if (!name || !age || !interests || !values || !occupation || !message || !effort) {
+  alert("Proszę uzupełnić wszystkie pola formularza.");
+  return;
+}
+
+collectedData.profile = { name, age, interests, values, occupation, message, effort };
+collectedData.message = message;
+
+// ✅ Poprawne ukrywanie i pokazywanie sekcji:
+messageSection.classList.add("hidden");
+document.getElementById("instructionAfterChoice").classList.add("hidden");
+document.getElementById("instructionWaitingForResponse").classList.remove("hidden");
+
+  const waitInfo = document.getElementById("instructionWaitingForResponse");
+
+  if (grupa === "kontrolna") {
+    // KONTROLNA: tylko komunikat + przycisk
+    waitInfo.innerText = "Twoja wiadomość została zapisana i wysłana. Wybrana użytkowniczka będzie mogła ją przeczytać później. Zamknij komunikat, aby przejść dalej.";
+    waitInfo.classList.remove("hidden");
+    document.getElementById("proceedAfterMessage").classList.remove("hidden");
+    document.getElementById("proceedAfterMessage").innerHTML = `<button onclick="proceedToFinalRating()">Zamknij</button>`;
+    updateProgress(60);
+  } else {
+    // EKSPERYMENTALNA: pokazanie koperty po czasie
+    waitInfo.innerText = "Osoba, którą wybrałeś otrzymała Twoją wiadomość. Teraz poczekaj na jej odpowiedź…";
+    waitInfo.classList.remove("hidden");
+    envelopeTimeout = setTimeout(() => {
+      waitInfo.classList.add("hidden");
+      document.getElementById("envelopeSection").classList.remove("hidden");
+      updateProgress(60);
+    }, 30000);
+  }
+});
+
+function showResponse() {
+  envelopeSection.classList.add("hidden");
+  responseSection.classList.remove("hidden");
+  document.getElementById("instructionAfterChoice").classList.add("hidden");
+}
+
+function showFinalRating() {
+  console.log("Wyświetlam zdjęcie do ponownej oceny:", collectedData.selectedImage);
+  responseSection.classList.add("hidden");
+  finalRatingSection.classList.remove("hidden");
+  document.getElementById("instructionAfterResponse").classList.remove("hidden");
+
+  finalProfile.innerHTML = "";
+  const finalImg = document.createElement("img");
+  finalImg.src = collectedData.selectedImage;
+ finalImg.classList.add("final-profile-img");
+  finalProfile.appendChild(finalImg);
+
+  updateProgress(80); // przed ostateczną oceną
+}
+  function proceedToFinalRating() {
+  document.getElementById("instructionWaitingForResponse").classList.add("hidden");
+  document.getElementById("proceedAfterMessage").classList.add("hidden");
+  showFinalRating();
+}
+
+document.getElementById("submitFinalBtn").addEventListener("click", () => {
+  const finalRating = document.getElementById("finalRating").value;
+  const comment = document.getElementById("commentInput").value.trim();
+
+  if (!finalRating || finalRating < 1 || finalRating > 10) {
+    alert("Proszę podać ocenę od 1 do 10.");
+    return;
+  }
+
+  collectedData.finalRating = finalRating;
+  collectedData.comment = comment;
+
+  downloadDataAsCSV();
+
+  document.getElementById("finalRatingSection").classList.add("hidden");
+document.getElementById("responseSection").classList.add("hidden");
+document.getElementById("thankYouScreen").classList.remove("hidden");
+  document.getElementById("instructionAfterResponse").classList.add("hidden");
+updateProgress(100); // koniec
+  localStorage.setItem("experimentCompleted", "true");
+  window.onbeforeunload = null;
+});
+
+function startExperiment() {
+  const nickname = document.getElementById("nicknameInput").value.trim();
+  const consent = document.getElementById("consentCheckbox").checked;
+
+  if (!nickname) {
+    alert("Proszę podać pseudonim przed rozpoczęciem.");
+    return;
+  }
+
+  if (!consent) {
+    alert("Musisz wyrazić zgodę na udział w badaniu.");
+    return;
+  }
+
+  collectedData.nickname = nickname;
+document.getElementById("formWrapper").classList.add("hidden");
+  document.getElementById("nicknameSection").classList.add("hidden");
+  document.getElementById("instructionBeforeChoice").classList.remove("hidden");
+  document.getElementById("profiles").classList.remove("hidden");
+  document.getElementById("startBtn").style.display = "none";
+  
+  loadProfiles();
+}
+
+function downloadDataAsCSV() {
+  const headers = [
+    "Pseudonim",
+    "Zdjęcie 1", "Ocena 1",
+    "Zdjęcie 2", "Ocena 2",
+    "Zdjęcie 3", "Ocena 3",
+    "Zdjęcie 4", "Ocena 4",
+    "Zdjęcie 5", "Ocena 5",
+    "Zdjęcie 6", "Ocena 6",
+    "Wybrane zdjęcie",
+    "Wiadomość",
+    "Ponowna ocena",
+    "Komentarz"
+  ];
+
+  const values = [collectedData.nickname];
+
+  for (let i = 0; i < 6; i++) {
+    if (collectedData.ratings[i]) {
+      values.push(collectedData.ratings[i].image, collectedData.ratings[i].rating);
+    } else {
+      values.push("", "");
+    }
+  }
+
+  values.push(
+    collectedData.selectedImage,
+    collectedData.message,
+    collectedData.finalRating,
+    collectedData.comment
+  );
+
+  const csvContent = headers.join(";") + "\n" + values.join(";");
+
+  const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.setAttribute("href", url);
+  link.setAttribute("download", "dane_badania.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function allRatingsGiven() {
+  const ratingInputs = document.querySelectorAll('.profile input[type="number"]');
+  return Array.from(ratingInputs).every(input => input.value.trim() !== "");
+}
+
+const nextBtn = document.getElementById("nextBtn");
+if (nextBtn) {
+  nextBtn.addEventListener("click", () => {
+    if (!allRatingsGiven()) {
+      alert("Proszę ocenić wszystkie zdjęcia przed przejściem dalej.");
+      return;
+    }
+    updateProgress(30);
+  });
+}
+
+function updateProgress(percentage) {
+  document.getElementById("progressBar").style.width = percentage + "%";
+}
+  
+
+</script>
+</body>
+</html>
+
