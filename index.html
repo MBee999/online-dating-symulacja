@@ -290,13 +290,13 @@ body {
 </div>
   <h1 class= "main-title"> Online dating - symulacja </h1>
   <div id="instructionBeforeChoice">
-  <p><strong>Instrukcja:</strong> Wypełnij kwestionariusz, do którego link znajduje się poniżej. Następnie kliknij "Rozpocznij", aby zacząć badanie. Obejrzyj wszystkie zdjęcia i oceń każdą osobę w skali 1–10. Następnie wybierz jedną osobę, którą oceniasz najwyżej. Nawet jeżeli kilka zdjęć otrzymało te samą ocenę, wybierz tylko jedno zdjęcie.</p>
+  <p><strong>Instrukcja:</strong> Wypełnij kwestionariusz, do który znajduje się poniżej. Pamiętaj, że aby Twój wynik był ważny musisz wypełnić formularz do końca. Kiedy w kwestionariuszu pojawi się przycisk "Prześlij" oznacza, że dotarłeś do jego końca. Następnie kliknij "Rozpocznij", aby zacząć badanie. Obejrzyj wszystkie zdjęcia i oceń atrakcyjność każdej osoby w skali 1–10. Następnie wybierz jedną osobę, którą oceniasz najwyżej. Nawet jeżeli kilka zdjęć otrzymało te samą ocenę, wybierz tylko jedno zdjęcie.</p>
 </div>
   <div id="nicknameSection">
   <h2 class="section-title">Podaj swój pseudonim:</h2>
 <input type="text" id="nicknameInput" class="input-large" placeholder="Twój pseudonim" />
 <p class="form-note">
-  Przed rozpoczęciem badania, proszę wypełnij krótki formularz:
+  Przed rozpoczęciem badania, proszę wypełnij poniższy formularz:
 
 </p>
   </div>
@@ -320,7 +320,7 @@ body {
   <div class="profiles" id="profiles"></div>
   <div id="chosenProfile" class="hidden"></div>
 <div id="instructionAfterChoice" class="hidden">
-  <p><strong>Instrukcja:</strong> Napisz wiadomość do osoby, którą wybrałeś.Wiadomość ma na celu przedstawienie się i zaprezentowanie siebie z jak najlepszej strony.</p>
+  <p><strong>Instrukcja:</strong> Wypełnij poniższy formularz, który stanowi Twój profil randkowy. W miejscu imienia możesz wpisać swój pseudonim, jeżeli chcesz pozostać anonimowy. Na koniec napisz wiadomość do osoby, którą wybrałeś.Wiadomość ma na celu przedstawienie się i zaprezentowanie siebie z jak najlepszej strony.</p>
 </div>
   
   <div id="messageSection" class="hidden" style="max-width: 600px; margin: auto; font-family: sans-serif;">
@@ -396,7 +396,7 @@ body {
   <label for="interests">3 zainteresowania (oddziel przecinkami):</label><br>
   <input type="text" id="interests" name="interests" required><br><br>
 
-  <label for="values">Co jest dla Ciebie ważne w relacjach?</label><br>
+  <label for="values">Co jest dla Ciebie ważne w relacjach romantycznych?</label><br>
   <textarea id="values" name="values" rows="3" required></textarea><br><br>
 
   <label for="occupation">Czym się zajmujesz?</label><br>
@@ -404,11 +404,11 @@ body {
 
   <label for="messageInput">Wiadomość do wybranej osoby:</label><br>
   <p style="font-size: 16 px; color: white;">
-    Wyobraź sobie, że piszesz do osoby, którą uznałeś za najbardziej atrakcyjną. Przedstaw się i zaprezentuj z jak najlepszej strony – tak, jakby to była Twoja pierwsza wiadomość na portalu randkowym.
+    Aktualnie piszesz do osoby, którą uznałeś za najbardziej atrakcyjną. Przedstaw się i zaprezentuj z jak najlepszej strony – tak, jakby to była Twoja pierwsza wiadomość na portalu randkowym.
   </p>
   <textarea id="messageInput" placeholder="Twoja wiadomość..." rows="5" required></textarea><br><br>
 
-  <label for="effort">Jak bardzo zależało Ci na zrobieniu dobrego wrażenia? (1 – wcale, 7 – bardzo)</label><br>
+  <label for="effort">Jak bardzo zależało Ci na zrobieniu dobrego wrażenia? (1 – wcale, 7 – bardzo) Ta informacja nie zostanie przekazana do wybranej osoby.</label><br>
   <select id="effort" name="effort" required>
     <option value="" disabled selected>Wybierz</option>
     <option value="1">1 – wcale</option>
@@ -437,7 +437,7 @@ body {
 <div id="responseSection" class="hidden">
   <p id="closeInstruction" class="white-instruction">Zamknij kopertę, aby przejść dalej</p>
   <div class="message-card">
-    <p><strong>Nie poczułam niczego szczególnego po Twojej wiadomości.</strong></p>
+    <p><strong>Hejka, fajnie, że się odezwałeś, ale szczerze mówiąc nie czuje, żeby był sens kontynuowania rozmowy. Po twojej wiadomości nie poczułam nic co by mnie zachęciło. Bez urazy :)</strong></p>
   </div>
   <button onclick="showFinalRating()">Zamknij</button>
 </div>
@@ -729,50 +729,33 @@ document.getElementById("formWrapper").classList.add("hidden");
 }
 
 function downloadDataAsCSV() {
-  const headers = [
-    "Pseudonim",
-    "Zdjęcie 1", "Ocena 1",
-    "Zdjęcie 2", "Ocena 2",
-    "Zdjęcie 3", "Ocena 3",
-    "Zdjęcie 4", "Ocena 4",
-    "Zdjęcie 5", "Ocena 5",
-    "Zdjęcie 6", "Ocena 6",
-    "Wybrane zdjęcie",
-    "Wiadomość",
-    "Ponowna ocena",
-    "Komentarz"
-  ];
+  const dataToSend = {
+    nickname: collectedData.nickname,
+    group: grupa, // dodana zmienna grupa
+    ratings: collectedData.ratings,
+    selectedImage: collectedData.selectedImage,
+    message: collectedData.message,
+    finalRating: collectedData.finalRating,
+    comment: collectedData.comment
+  };
 
-  const values = [collectedData.nickname];
-
-  for (let i = 0; i < 6; i++) {
-    if (collectedData.ratings[i]) {
-      values.push(collectedData.ratings[i].image, collectedData.ratings[i].rating);
-    } else {
-      values.push("", "");
-    }
-  }
-
-  values.push(
-    collectedData.selectedImage,
-    collectedData.message,
-    collectedData.finalRating,
-    collectedData.comment
-  );
-
-  const csvContent = headers.join(";") + "\n" + values.join(";");
-
-  const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-
-  const link = document.createElement("a");
-  link.setAttribute("href", url);
-  link.setAttribute("download", "dane_badania.csv");
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  fetch("https://script.google.com/macros/s/AKfycbw7l0v3iUTa3vfPym-6sL5vfD8xzswB6SWliie0TrtJ3XJ53Y-KDLZOyMSJKgkzKKO9/exec", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dataToSend)
+  })
+    .then(res => res.json())
+    .then(res => {
+      if (res.status === "OK") {
+        console.log("✅ Dane zapisane w arkuszu");
+      } else {
+        console.error("❌ Błąd:", res.message);
+      }
+    })
+    .catch(err => {
+      console.error("❌ Błąd podczas wysyłania danych:", err);
+    });
 }
-
 function allRatingsGiven() {
   const ratingInputs = document.querySelectorAll('.profile input[type="number"]');
   return Array.from(ratingInputs).every(input => input.value.trim() !== "");
