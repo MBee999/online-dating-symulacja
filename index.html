@@ -746,10 +746,10 @@ function downloadDataAsCSV() {
   };
 
   fetch("/.netlify/functions/saveData", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(dataToSend)
-})
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dataToSend)
+  })
   .then(res => res.json())
   .then(res => {
     console.log("✅ Dane zostały zapisane:", res);
@@ -757,7 +757,7 @@ function downloadDataAsCSV() {
   .catch(err => {
     console.error("❌ Błąd zapisu przez backend:", err);
   });
-
+} // 🔁 ⬅️ Tego nawiasu brakowało!
 
 function allRatingsGiven() {
   const ratingInputs = document.querySelectorAll('.profile input[type="number"]');
@@ -778,8 +778,6 @@ if (nextBtn) {
 function updateProgress(percentage) {
   document.getElementById("progressBar").style.width = percentage + "%";
 }
-  
-
 </script>
 </body>
 </html>
