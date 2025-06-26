@@ -731,15 +731,21 @@ document.getElementById("formWrapper").classList.add("hidden");
 function downloadDataAsCSV() {
   const dataToSend = {
     nickname: collectedData.nickname,
-    group: grupa, // dodana zmienna grupa
+    group: grupa,
+    name: document.getElementById("name")?.value || "",
+    age: document.getElementById("age")?.value || "",
+    interests: document.getElementById("interests")?.value || "",
+    values: document.getElementById("values")?.value || "",
+    occupation: document.getElementById("occupation")?.value || "",
+    effort: document.getElementById("effort")?.value || "",
+    message: document.getElementById("messageInput")?.value || "",
     ratings: collectedData.ratings,
     selectedImage: collectedData.selectedImage,
-    message: collectedData.message,
     finalRating: collectedData.finalRating,
     comment: collectedData.comment
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbw7l0v3iUTa3vfPym-6sL5vfD8xzswB6SWliie0TrtJ3XJ53Y-KDLZOyMSJKgkzKKO9/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbwUgUAnzWGZQ-AU5o60QHeWQmZoC7_VuHsyb2ZzghFzD-4K8rvxDT4J0X7qmtSfKmXM/exec", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dataToSend)
@@ -756,6 +762,7 @@ function downloadDataAsCSV() {
       console.error("❌ Błąd podczas wysyłania danych:", err);
     });
 }
+
 function allRatingsGiven() {
   const ratingInputs = document.querySelectorAll('.profile input[type="number"]');
   return Array.from(ratingInputs).every(input => input.value.trim() !== "");
