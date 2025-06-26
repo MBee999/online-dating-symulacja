@@ -745,23 +745,19 @@ function downloadDataAsCSV() {
     comment: collectedData.comment
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbwUgUAnzWGZQ-AU5o60QHeWQmZoC7_VuHsyb2ZzghFzD-4K8rvxDT4J0X7qmtSfKmXM/exec", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(dataToSend)
+  fetch("/.netlify/functions/saveData", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(dataToSend)
+})
+  .then(res => res.json())
+  .then(res => {
+    console.log("✅ Dane zostały zapisane:", res);
   })
-    .then(res => res.json())
-    .then(res => {
-      if (res.status === "OK") {
-        console.log("✅ Dane zapisane w arkuszu");
-      } else {
-        console.error("❌ Błąd:", res.message);
-      }
-    })
-    .catch(err => {
-      console.error("❌ Błąd podczas wysyłania danych:", err);
-    });
-}
+  .catch(err => {
+    console.error("❌ Błąd zapisu przez backend:", err);
+  });
+
 
 function allRatingsGiven() {
   const ratingInputs = document.querySelectorAll('.profile input[type="number"]');
